@@ -1,0 +1,48 @@
+# =================================================================
+# IDE & System - 编辑器与系统相关
+# =================================================================
+.idea/                # GoLand 配置文件
+.vscode/              # 图片中显示的 VS Code 配置文件
+*.iml
+*.iws
+.DS_Store
+Thumbs.db
+
+# =================================================================
+# Frontend - Vue 3 / Vite 相关 (路径前缀为 frontend/)
+# =================================================================
+frontend/node_modules/
+frontend/dist/
+frontend/stats.html
+frontend/*.log
+frontend/.vite/
+frontend/.env.local
+frontend/.env.*.local
+
+# 如果你根目录下那个 package-lock.json 是误操作生成的，也可以忽略或删除
+# package-lock.json
+
+# =================================================================
+# Backend - Go 相关 (假设你后续后端文件夹叫 backend)
+# =================================================================
+# 编译后的二进制文件
+backend/bin/
+backend/backend
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# 调试产物
+__debug_bin
+backend/*.log
+
+# =================================================================
+# Environment & Secrets - 敏感环境文件
+# =================================================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
