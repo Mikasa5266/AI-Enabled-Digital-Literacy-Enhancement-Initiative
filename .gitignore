@@ -46,3 +46,8 @@ backend/*.log
 .env.development.local
 .env.test.local
 .env.production.local
+/.idea/.gitignore
+/.idea/go.imports.xml
+/.idea/modules.xml
+/frontend/src/
+/.idea/vcs.xml
