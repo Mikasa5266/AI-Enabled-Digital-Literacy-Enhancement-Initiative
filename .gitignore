@@ -1,32 +1,65 @@
 # =================================================================
-# IDE & System - 编辑器与系统相关
+# IDE / Editor - 编辑器配置
 # =================================================================
-.idea/                # GoLand 配置文件
-.vscode/              # 图片中显示的 VS Code 配置文件
+.idea/
 *.iml
 *.iws
-.DS_Store
-Thumbs.db
+
+# VS Code：默认不提交个人配置；如需团队共享，可保留常用文件
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
 
 # =================================================================
-# Frontend - Vue 3 / Vite 相关 (路径前缀为 frontend/)
+# OS - 系统文件
+# =================================================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# =================================================================
+# Logs - 日志
+# =================================================================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =================================================================
+# Env / Secrets - 环境变量与敏感文件
+# =================================================================
+.env
+.env.*
+!.env.example
+!.env.template
+
+# =================================================================
+# Frontend - Vue 3 / Vite (frontend/)
 # =================================================================
 frontend/node_modules/
 frontend/dist/
-frontend/stats.html
-frontend/*.log
 frontend/.vite/
-frontend/.env.local
-frontend/.env.*.local
-
-# 如果你根目录下那个 package-lock.json 是误操作生成的，也可以忽略或删除
-# package-lock.json
+frontend/.cache/
+frontend/.eslintcache
+frontend/stats.html
+frontend/src/tempimages
+# 重要：不要忽略源码目录（例如 frontend/src/）
 
 # =================================================================
-# Backend - Go 相关 (假设你后续后端文件夹叫 backend)
+# Node (root) - 根目录误生成的 Node 产物
 # =================================================================
-# 编译后的二进制文件
+node_modules/
+package-lock.json
+
+# =================================================================
+# Backend - Go (backend/)
+# =================================================================
+# 编译产物 / 二进制
 backend/bin/
+backend/**/bin/
 backend/backend
 *.exe
 *.exe~
@@ -34,20 +67,41 @@ backend/backend
 *.so
 *.dylib
 
+# Go 测试与覆盖率
+*.test
+*.out
+cover.out
+coverage.out
+coverage.txt
+
+# Go workspace（如未来使用 go work）
+go.work
+go.work.sum
+
+# Vendor（如使用 go mod vendor）
+backend/vendor/
+
 # 调试产物
-__debug_bin
-backend/*.log
+__debug_bin*
+backend/**/__debug_bin*
+
+# 运行时目录（上传/缓存/临时文件）
+backend/storage/
+backend/tmp/
+backend/.tmp/
+tmp/
+.temp/
+*.tmp
 
 # =================================================================
-# Environment & Secrets - 敏感环境文件
+# Local data - 本地数据库/数据文件（如需要提交，请移除此段）
 # =================================================================
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-/.idea/.gitignore
-/.idea/go.imports.xml
-/.idea/modules.xml
-/frontend/src/
-/.idea/vcs.xml
+*.db
+*.sqlite
+*.sqlite3
+
+# =================================================================
+# Misc - 其他编辑器临时文件
+# =================================================================
+*.swp
+*.swo

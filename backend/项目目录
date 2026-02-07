@@ -1,0 +1,70 @@
+backend/
+├── cmd/
+│   └── api/
+│       └── main.go                 # 应用入口
+│
+├── internal/                       # 私有应用代码
+│   ├── handler/                    # HTTP 处理器（Controller层）
+│   │   ├── resource.go             # 资源库相关接口
+│   │   ├── teacher.go              # 教师支持相关接口
+│   │   ├── interact.go             # 互动学习相关接口
+│   │   └── user.go                 # 用户认证相关
+│   │
+│   ├── service/                    # 业务逻辑层
+│   │   ├── ppt_service.go
+│   │   ├── course_service.go
+│   │   ├── ai_service.go           # AI 相关服务封装
+│   │   └── work_service.go
+│   │
+│   ├── repository/                 # 数据访问层（DAO）
+│   │   ├── ppt_repo.go
+│   │   ├── course_repo.go
+│   │   └── user_repo.go
+│   │
+│   ├── model/                      # 数据模型
+│   │   ├── ppt.go
+│   │   ├── course.go
+│   │   ├── user.go
+│   │   └── work.go
+│   │
+│   ├── middleware/                 # 中间件
+│   │   ├── auth.go                 # 认证中间件
+│   │   ├── cors.go                 # 跨域处理
+│   │   └── logger.go               # 日志中间件
+│   │
+│   └── router/                     # 路由配置
+│       └── router.go
+│
+├── pkg/                            # 可被外部使用的公共库
+│   ├── utils/
+│   │   ├── response.go             # 统一响应格式
+│   │   ├── validator.go            # 参数验证
+│   │   └── jwt.go                  # JWT 工具
+│   │
+│   └── config/
+│       └── config.go               # 配置管理
+│
+├── api/                            # API 文档
+│   └── openapi.yaml                # OpenAPI/Swagger 规范
+│
+├── migrations/                     # 数据库迁移文件
+│   ├── 001_create_users.up.sql
+│   └── 001_create_users.down.sql
+│
+├── scripts/                        # 构建、部署脚本
+│   └── build.sh
+│
+├── configs/                        # 配置文件
+│   ├── config.yaml
+│   └── config.dev.yaml
+│
+├── storage/                        # 文件存储目录
+│   ├── uploads/                    # 用户上传文件
+│   └── ppt/                        # PPT 资源
+│
+├── .env.example                    # 环境变量模板
+├── .gitignore
+├── go.mod
+├── go.sum
+├── Makefile                        # 构建命令
+└── README.md
