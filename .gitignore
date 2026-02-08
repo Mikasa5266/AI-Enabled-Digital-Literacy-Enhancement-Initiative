@@ -45,7 +45,8 @@ frontend/.vite/
 frontend/.cache/
 frontend/.eslintcache
 frontend/stats.html
-frontend/src/tempimages
+frontend/public/images
+frontend/public/pdf
 # 重要：不要忽略源码目录（例如 frontend/src/）
 
 # =================================================================

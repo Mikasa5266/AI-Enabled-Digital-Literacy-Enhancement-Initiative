@@ -5,13 +5,13 @@
                 @search="onsearchCards" />
         </div>
         <div style="padding: 20px;">
-            <Row :gutter="16">
-                <Col v-for="card in cards_present" :key="card.key" :span="4">
+            <Row :gutter="[16,24]">
+                <Col v-for="card in cards_present" :key="card.id" :span="4">
                     <Card :title="card.title" :bordered="false">
                         <template #cover>
                             <div class="cover_wrapper">
                                 <div class="cover_mask">
-                                    <Button type="primary" ghost @click="onclickpvButton">立即预览</Button>
+                                    <Button type="primary" ghost @click="onclickpvButton(card)">立即预览</Button>
                                 </div>
                                 <img class="cover_img" :alt="card.title" :src="card.cover_url" />
                             </div>
@@ -20,12 +20,11 @@
                 </Col>
             </Row>
         </div>
-        <Modal v-model:visible="openPPTView" width="1200" :footer="null" centered title="课件预览"
-            :bodyStyle="{ height: '70vh', padding: '0' }">
-            <div class="w-3/5 h-full bg-gray-100">
-                <iframe
-                    :src="'https://view.officeapps.live.com/op/view.aspx?src=' + 'https://github.com/singpenguin/ppt/blob/master/CIKM-keynote-Nov2014.pdf'"
-                    width="100%" height="100%" frameborder="0">
+        <Modal v-model:open="openPPTView" :width="1200" :footer="null" 
+            :bodyStyle="{  height: '75vh', padding: '0', overflow: 'hidden' }">
+            <div style="width: 100%; height: 100%; background-color: #f3f4f6;" class="w-full h-full bg-gray-100">
+                <iframe :src="`/pdfjs/web/viewer.html?file=${encodeURIComponent(currentPdfUrl)}#view=FitH`" width="100%"
+                    height="100%" frameborder="0">
                     这是预览插件
                 </iframe>
             </div>
@@ -35,82 +34,52 @@
 
 <script setup lang="ts">
 import { Button, Card, Col, InputSearch, Modal, Row } from 'ant-design-vue';
-import { ref } from 'vue';
-//数据结构定义
+import { onMounted, ref } from 'vue';
+import type { PPTcard } from '../../types/ppt';
+import axios from 'axios';
+
+// 后端返回的包装结构
+interface ApiResponse<T> {
+    code: number
+    msg: string
+    data: T
+}
+
 //搜索内容
 const search_content = ref<string>('')
-//pptcard接口
-interface PPTCard {
-    key: string
-    cover_url: string
-    title: string
-}
-const cards: PPTCard[] = [
-    {
-        key: '1',
-        cover_url: new URL('../../images/test1.jpg', import.meta.url).href,
-        title: '如何打王者荣耀'
-    },
-    {
-        key: '2',
-        cover_url: new URL('../../images/test2.jpg', import.meta.url).href,
-        title: '王者荣耀英雄选择技巧'
-    },
-    {
-        key: '3',
-        cover_url: new URL('../../images/test3.jpg', import.meta.url).href,
-        title: '王者荣耀铭文搭配指南'
-    },
-    {
-        key: '4',
-        cover_url: new URL('../../images/test4.jpg', import.meta.url).href,
-        title: '王者荣耀打野节奏把控'
-    },
-    {
-        key: '5',
-        cover_url: new URL('../../images/test5.jpg', import.meta.url).href,
-        title: '王者荣耀中路支援技巧'
-    },
-    {
-        key: '6',
-        cover_url: new URL('../../images/test6.jpg', import.meta.url).href,
-        title: '王者荣耀下路双人组配合'
-    },
-    {
-        key: '7',
-        cover_url: new URL('../../images/test7.jpg', import.meta.url).href,
-        title: '王者荣耀上单抗压思路'
-    },
-    {
-        key: '8',
-        cover_url: new URL('../../images/test8.jpg', import.meta.url).href,
-        title: '王者荣耀团战站位技巧'
-    },
-    {
-        key: '9',
-        cover_url: new URL('../../images/test9.jpg', import.meta.url).href,
-        title: '王者荣耀逆风局翻盘攻略'
-    },
-    {
-        key: '10',
-        cover_url: new URL('../../images/test10.jpg', import.meta.url).href,
-        title: '王者荣耀常用道具使用时机'
-    }
-]
-const cards_present = ref<PPTCard[]>(cards)
+//pptcard数组
+let cards: PPTcard[] = []
+const cards_present = ref<PPTcard[]>([])
 
+//获取内容
+const getPPT = async () => {
+    try {
+        const result = await axios.get<ApiResponse<PPTcard[]>>("/api/ppt")
+        cards = result.data.data
+        cards_present.value = cards  // 更新响应式数据，页面才会渲染
+        console.log(cards)
+        console.log(cards_present.value)
+    } catch (error) {
+        console.log("请求错误", error)
+    }
+}
+onMounted(()=>{
+    getPPT()
+})
 //打开ppt模态框
 const openPPTView = ref<boolean>(false)
-
+//当前pdf的URL
+const currentPdfUrl = ref<string>('')
 //处理预览按钮
-const onclickpvButton = () => {
+const onclickpvButton = (card: PPTcard) => {
     console.log('我是预览')
+    currentPdfUrl.value = card.file_url
     openPPTView.value = true
     console.log(openPPTView.value)
 }
 //处理搜索
 const onsearchCards = () => {
-    const search_result: PPTCard[] = cards.filter(card => {
+    const search_result: PPTcard[] = cards.filter(card => {
         return card.title.includes(search_content.value)
     })
     console.log(search_content.value)
@@ -152,5 +121,16 @@ const onsearchCards = () => {
 
 .cover_wrapper:hover .cover_mask {
     opacity: 1;
+}
+</style>
+<style scoped>
+:deep(.ant-card){
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition:  box-shadow 0.3s ease;
+}
+:deep(.ant-card:hover){
+    box-shadow:0 4px 16px rgba(0,0,0,0.2);
 }
 </style>

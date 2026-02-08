@@ -1,4 +1,4 @@
-CREATE TABLE `ppt` (
+CREATE TABLE `ppts` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `cover_url` varchar(255),

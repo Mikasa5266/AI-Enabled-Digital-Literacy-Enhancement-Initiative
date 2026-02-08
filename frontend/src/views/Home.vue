@@ -135,5 +135,7 @@ watchEffect(() => {
 
 .home-content {
     flex-grow: 1;
+    overflow-y: auto;
+    height: 100vh;
 }
 </style>

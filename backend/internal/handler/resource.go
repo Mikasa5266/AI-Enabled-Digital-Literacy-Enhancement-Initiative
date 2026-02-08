@@ -1,19 +1,26 @@
 package handler
 
 import (
+	"fmt"
 	"gin-demo/internal/model"
 	"gin-demo/pkg/utils"
 	"net/http"
 	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 var db *gorm.DB
 
+func InitDB(database *gorm.DB) {
+	db = database
+}
+
 func ListPPT(c *gin.Context) {
 	var ppts []model.PPT
 	if err := db.Find(&ppts).Error; err != nil {
+		fmt.Println("数据库查询错误:", err) 
 		utils.Error(c, http.StatusInternalServerError, "查询ppt失败")
 		return
 	}

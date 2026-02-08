@@ -1,10 +1,12 @@
 package main
 
 import (
+	"gin-demo/internal/handler"
 	"gin-demo/internal/model"
 	"gin-demo/internal/router"
 	"gin-demo/pkg/config"
 	"log"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -21,12 +23,14 @@ func main() {
 	if err != nil{
 		log.Fatal("数据库连接失败",err)
 	}
+	handler.InitDB(db) 
 	db.AutoMigrate(&model.PPT{})
 	router.DB = db
 	
 	r := gin.Default()
 	router.Setup(r)
-	if err := r.Run(":" + cfg.Port); err != nil {
+	log.Printf("服务启动在端口 %s", cfg.Server.Port)
+	if err := r.Run(":" + cfg.Server.Port); err != nil {
 		log.Fatal("服务启动失败", err)
 	}
 }
