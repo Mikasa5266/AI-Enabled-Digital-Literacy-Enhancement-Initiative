@@ -1,9 +1,0 @@
-# config.yaml
-server:
-  port: 8080
-database:
-  host: localhost
-  port: 5432
-  user: root
-  password: cl200683
-  name: ai_education
