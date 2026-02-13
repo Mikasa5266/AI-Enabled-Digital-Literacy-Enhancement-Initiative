@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
+	"log"
+
 	"gin-demo/internal/handler"
 	"gin-demo/internal/model"
 	"gin-demo/internal/router"
 	"gin-demo/pkg/config"
-	"log"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
@@ -18,7 +20,15 @@ func main() {
 	if err != nil {
 		log.Fatal("配置加载失败", err)
 	}
-	dsn := "root:cl200683@tcp(127.0.0.1:3306)/ai_education?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := fmt.Sprintf(
+		"%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		cfg.Database.User,
+		cfg.Database.Password,
+		cfg.Database.Host,
+		cfg.Database.Port,
+		cfg.Database.Name,
+	)
+
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("数据库连接失败", err)

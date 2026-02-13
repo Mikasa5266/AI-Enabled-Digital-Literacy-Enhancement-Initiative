@@ -9,15 +9,15 @@
         </header>
         <main>
             <div class="left">
-                <Form :model="course" name="course">
+                <Form :model="course" name="course" @finish="onFinish" @finish-failed="onFinishFail">
                     <h2>课程需求</h2>
-                    <FormItem>
+                    <FormItem name="theme" :rules="[{ required: true, message: '课程主题为必填' }]">
                         <label class="form_label">
                             课程主题
                         </label>
                         <Input style="width: 350px;" v-model:value="course.theme" placeholder="例如:python编程入门" />
                     </FormItem>
-                    <FormItem>
+                    <FormItem name="targetmember" :rules="[{ required: true, message: '目标受众为必选' }]">
                         <label class="form_label">
                             目标受众
                         </label>
@@ -27,13 +27,13 @@
                             <Option value="grade_three">三年级</Option>
                         </Select>
                     </FormItem>
-                    <FormItem>
+                    <FormItem name="timelenth">
                         <label>
                             课程时长(分钟)
                         </label>
                         <Input style="width: 350px;" v-model:value="course.timelenth" />
                     </FormItem>
-                    <FormItem>
+                    <FormItem name="chapterlenth">
                         <label class="form_label">
                             建议章节数
                         </label>
@@ -45,14 +45,17 @@
                         </label>
                         <Select style="width: 350px;" />
                     </FormItem>
-                    <FormItem>
+                    <FormItem name="introduction">
                         <label class="form_label">
                             补充说明
                         </label>
-                        <Textarea style="width: 350px;" :rows="4" placeholder="其他特殊要求或期望的内容方向" />
+                        <Textarea v-model:value="course.introduction" style="width: 350px;" :rows="4" placeholder="其他特殊要求或期望的内容方向" />
                     </FormItem>
-                    <Button style="width: 350px; height: 40px;    background-image: linear-gradient(to bottom right, #667de9, #754da5);
-" type="primary">生成课程大纲</Button>
+                    <FormItem>
+                        <Button type="primary" html-type="submit" style="width: 350px; height: 40px;    background-image: linear-gradient(to bottom right, #667de9, #754da5);">
+                            生成课程大纲
+                        </Button>
+                    </FormItem>
                 </Form>
             </div>
             <div class="right">
@@ -76,6 +79,15 @@ const course = ref<Course_Create_Info>({
     inferresourse: '',
     introduction: ''
 })
+
+
+//提交表单
+const onFinish = () => {
+
+}
+const onFinishFail = () => {
+
+}
 </script>
 
 <style scoped>
@@ -118,7 +130,7 @@ main {
     width: 800px;
     display: flex;
     align-items: center;
-    justify-self:center;
+    justify-self: center;
 }
 
 .form_label {

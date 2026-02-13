@@ -93,6 +93,7 @@ backend/.tmp/
 tmp/
 .temp/
 *.tmp
+backend/cmd/api/configs/config.yaml
 
 # =================================================================
 # Local data - 本地数据库/数据文件（如需要提交，请移除此段）
