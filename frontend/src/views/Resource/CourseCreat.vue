@@ -70,6 +70,7 @@ import { Button, Form, FormItem, Input, Select, Slider, Textarea } from 'ant-des
 import { ref } from 'vue';
 import type { Course_Create_Info } from '../../types/course_create';
 import { Option } from 'ant-design-vue/es/vc-select';
+import { uploadListProps } from 'ant-design-vue/es/upload/interface';
 //表单元素
 const course = ref<Course_Create_Info>({
     theme: '',
@@ -83,7 +84,7 @@ const course = ref<Course_Create_Info>({
 
 //提交表单
 const onFinish = () => {
-
+    
 }
 const onFinishFail = () => {
 

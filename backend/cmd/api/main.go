@@ -38,6 +38,7 @@ func main() {
 	router.DB = db
 
 	r := gin.Default()
+	r.Static("/static","./storage")
 	router.Setup(r)
 	log.Printf("服务启动在端口 %s", cfg.Server.Port)
 	if err := r.Run(":" + cfg.Server.Port); err != nil {

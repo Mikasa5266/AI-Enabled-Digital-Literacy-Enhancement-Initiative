@@ -87,7 +87,7 @@ __debug_bin*
 backend/**/__debug_bin*
 
 # 运行时目录（上传/缓存/临时文件）
-backend/storage/
+backend/cmd/api/storage/
 backend/tmp/
 backend/.tmp/
 tmp/
